@@ -43,7 +43,7 @@ const Comments = ({
     };
 
     try {
-      await axios.post(`/api/comments`, newComment);
+      await axios.post(`${BASE_URL}/api/comments`, newComment);
       const { data } = await axios.get(
         `${BASE_URL}/api/comments?postId=${postId}`
       );
