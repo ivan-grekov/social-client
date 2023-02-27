@@ -10,6 +10,7 @@ import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { Dispatch } from 'react';
 import { Delete, Edit, ErrorOutline } from '@mui/icons-material';
+import { BASE_URL } from '../../apiCalls';
 
 export default function MenuPost({ post }: propsMenuPost) {
   const { user, isCreatePost, dispatch } = React.useContext(
@@ -42,7 +43,7 @@ export default function MenuPost({ post }: propsMenuPost) {
   const handleDeletePost = async () => {
     setAnchorEl(null);
     try {
-      await axios.delete(`/api/posts/${post._id}`, {
+      await axios.delete(`${BASE_URL}/api/posts/${post._id}`, {
         data: { userId: user?._id },
       });
     } catch (error) {

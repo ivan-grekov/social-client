@@ -7,6 +7,7 @@ import { CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../apiCalls';
 
 const FormAuth = ({ title, isLogin }: propsFormAuth): JSX.Element => {
   const minLengthOfLoginPassword = 6;
@@ -21,7 +22,10 @@ const FormAuth = ({ title, isLogin }: propsFormAuth): JSX.Element => {
     e.preventDefault();
     try {
       loginCall(
-        { email: emailAddress.current?.value, password: password.current?.value },
+        {
+          email: emailAddress.current?.value,
+          password: password.current?.value,
+        },
         dispatch
       );
     } catch (err) {
@@ -40,7 +44,7 @@ const FormAuth = ({ title, isLogin }: propsFormAuth): JSX.Element => {
         password: password.current?.value,
       };
       try {
-        await axios.post('/api/auth/register', userRegister);
+        await axios.post(`${BASE_URL}/api/auth/register`, userRegister);
         history('/login');
       } catch (err) {
         console.log(err);

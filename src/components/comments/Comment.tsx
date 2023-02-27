@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
+import { BASE_URL } from '../../apiCalls';
 
 const Comment = ({
   comment,
@@ -21,10 +22,12 @@ const Comment = ({
   const onClickDeleteComment = async () => {
     setCommentId(comment._id);
     try {
-      await axios.delete(`/api/comments/${comment._id}`, {
+      await axios.delete(`${BASE_URL}/api/comments/${comment._id}`, {
         data: { userId: user?._id },
       });
-      const { data } = await axios.get(`/api/comments?postId=${postId}`);
+      const { data } = await axios.get(
+        `${BASE_URL}/api/comments?postId=${postId}`
+      );
       dispatch({ type: 'SET_COMMENTS', payload: data });
     } catch (error) {
       console.log(error);

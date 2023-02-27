@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { Add, Remove } from '@mui/icons-material';
 import { useParams } from 'react-router';
+import { BASE_URL } from '../../apiCalls';
 
 export default function Rightbar({ user }: RightbarProps): JSX.Element {
   const { user: currentUser, dispatch } = React.useContext(
@@ -31,7 +32,7 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
       try {
         if (user?._id) {
           const friendsList = await axios.get(
-            `/api/users/friends/${user?._id}`
+            `${BASE_URL}/api/users/friends/${user?._id}`
           );
           setFriends(friendsList.data);
         }
@@ -58,7 +59,7 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
 
   useEffect(() => {
     const getOnlineUsers = async () => {
-      const { data } = await axios.get('/api/users/all');
+      const { data } = await axios.get(`${BASE_URL}/api/users/all`);
       const randomUsers = data
         .filter(
           (user: IUser) => !user.profilePicture && user._id !== currentUser?._id
@@ -73,12 +74,12 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
   const handleClick = async () => {
     try {
       if (followed) {
-        await axios.put(`/api/users/${user?._id}/unfollow`, {
+        await axios.put(`${BASE_URL}/api/users/${user?._id}/unfollow`, {
           userId: currentUser?._id,
         });
         dispatch({ type: 'UNFOLLOW', payload: user?._id });
       } else {
-        await axios.put(`/api/users/${user?._id}/follow`, {
+        await axios.put(`${BASE_URL}/api/users/${user?._id}/follow`, {
           userId: currentUser?._id,
         });
         dispatch({ type: 'FOLLOW', payload: user?._id });

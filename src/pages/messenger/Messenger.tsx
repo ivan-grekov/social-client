@@ -9,6 +9,7 @@ import { UserContext } from '../../static/types';
 import axios from 'axios';
 import { IConversation } from '../../static/types';
 import { IMessage } from '../../static/types';
+import { BASE_URL } from '../../apiCalls';
 
 const Messenger = () => {
   const [conversations, setConversations] = React.useState([]);
@@ -23,7 +24,9 @@ const Messenger = () => {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await axios.get('/api/conversations/' + user?._id);
+        const res = await axios.get(
+          `${BASE_URL}/api/conversations/` + user?._id
+        );
         setConversations(res.data);
       } catch (err) {
         console.log(err);
@@ -35,7 +38,9 @@ const Messenger = () => {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get('/api/messages/' + currentChat?._id);
+        const res = await axios.get(
+          `${BASE_URL}/api/messages/` + currentChat?._id
+        );
         setMessages(res.data);
       } catch (error) {
         console.log(error);
@@ -57,7 +62,7 @@ const Messenger = () => {
     };
 
     try {
-      const res = await axios.post('/api/messages', message);
+      const res = await axios.post(`${BASE_URL}/api/messages`, message);
       setMessages([...messages, res.data]);
       setNewMessage('');
     } catch (error) {

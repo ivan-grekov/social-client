@@ -6,6 +6,7 @@ import axios from 'axios';
 import { IPost, FeedProps, UserContext } from '../../static/types';
 import { AuthContext } from '../../context/AuthContext';
 import Skeleton from '../skeleton/Skeleton';
+import { BASE_URL } from '../../apiCalls';
 
 const Feed: React.FC<FeedProps> = ({ username }) => {
   const [timeAgo, setTimeago] = React.useState(false);
@@ -24,8 +25,12 @@ const Feed: React.FC<FeedProps> = ({ username }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       const res = username
-        ? await axios.get(`/api/posts/profile/${username}?q=${query}`)
-        : await axios.get(`/api/posts/timeline/${user?._id}?q=${query}`);
+        ? await axios.get(
+            `${BASE_URL}/api/posts/profile/${username}?q=${query}`
+          )
+        : await axios.get(
+            `${BASE_URL}/api/posts/timeline/${user?._id}?q=${query}`
+          );
       setPosts(
         res.data.sort((p1: IPost, p2: IPost) => {
           return (

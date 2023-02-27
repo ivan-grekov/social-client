@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
 import { Add, Remove } from '@mui/icons-material';
+import { BASE_URL } from '../../apiCalls';
 
 export default function Profile(): JSX.Element {
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -23,7 +24,7 @@ export default function Profile(): JSX.Element {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/api/users?username=${username}`);
+      const res = await axios.get(`${BASE_URL}/api/users?username=${username}`);
       setUser(res.data);
     };
     fetchUser();
@@ -36,12 +37,12 @@ export default function Profile(): JSX.Element {
   const handleClick = async () => {
     try {
       if (followed) {
-        await axios.put(`/api/users/${user?._id}/unfollow`, {
+        await axios.put(`${BASE_URL}/api/users/${user?._id}/unfollow`, {
           userId: currentUser?._id,
         });
         dispatch({ type: 'UNFOLLOW', payload: user?._id });
       } else {
-        await axios.put(`/api/users/${user?._id}/follow`, {
+        await axios.put(`${BASE_URL}/api/users/${user?._id}/follow`, {
           userId: currentUser?._id,
         });
         dispatch({ type: 'FOLLOW', payload: user?._id });

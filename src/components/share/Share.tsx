@@ -10,6 +10,7 @@ import React, { Dispatch, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { IUpdatedPost, UserContext } from '../../static/types';
 import axios from 'axios';
+import { BASE_URL } from '../../apiCalls';
 
 let tags: string[] | undefined = [];
 
@@ -54,14 +55,14 @@ function Share() {
       data.append('file', fileInput);
       newPost.img = fileName;
       try {
-        await axios.post('/api/upload', data);
+        await axios.post(`${BASE_URL}/api/upload`, data);
       } catch (err) {
         console.log(err);
       }
     }
     if (post) {
       try {
-        await axios.put(`/api/posts/${post._id}`, newPost);
+        await axios.put(`${BASE_URL}/api/posts/${post._id}`, newPost);
         setFileInput(null);
         setDescInput(null);
         setTagsInput(null);
@@ -81,7 +82,7 @@ function Share() {
     } else {
       if (fileInput !== null && descInput !== '') {
         try {
-          await axios.post('/api/posts', newPost);
+          await axios.post('${BASE_URL}/api/posts', newPost);
           setFileInput(null);
           setDescInput(null);
           setTagsInput(null);

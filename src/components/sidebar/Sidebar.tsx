@@ -16,6 +16,7 @@ import {
 import CloseFriend from '../closeFriend/CloseFriend';
 import { Link } from 'react-router-dom';
 import SidebarFooter from '../sidebarFooter/SidebarFooter';
+import { BASE_URL } from '../../apiCalls';
 
 export default function Sidebar({ profilePage }: { profilePage?: boolean }) {
   const { user } = React.useContext(AuthContext) as UserContext;
@@ -24,7 +25,9 @@ export default function Sidebar({ profilePage }: { profilePage?: boolean }) {
     const getFriends = async () => {
       try {
         if (user?._id) {
-          const { data } = await axios.get(`/api/users/friends/${user?._id}`);
+          const { data } = await axios.get(
+            `${BASE_URL}/api/users/friends/${user?._id}`
+          );
           setFriends(data);
         }
       } catch (err) {

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import MenuPost from '../menuPost/MenuPost';
 import Comments from '../comments/Comments';
+import { BASE_URL } from '../../apiCalls';
 
 const Post: React.FC<PostProps> = ({ post }) => {
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -22,7 +23,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await axios.get(`/api/users?userId=${post.userId}`);
+      const res = await axios.get(
+        `${BASE_URL}/api/users?userId=${post.userId}`
+      );
       setUser(res.data);
     };
     fetchUser();
@@ -30,7 +33,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
   const likeHandler = () => {
     try {
-      axios.put(`/api/posts/${post._id}/like`, { userId: currentUser?._id });
+      axios.put(`${BASE_URL}/api/posts/${post._id}/like`, {
+        userId: currentUser?._id,
+      });
     } catch (err) {}
 
     setLike(isLiked ? Number(like) - 1 : Number(like) + 1);
@@ -74,12 +79,11 @@ const Post: React.FC<PostProps> = ({ post }) => {
           />
         </div>
 
-        <div className='tagBlock'>
-          {post.tags && post.tags.split(';').map((tag: string) => (
-            <div className='tagItem'>
-              {tag}
-            </div>
-          ))}
+        <div className="tagBlock">
+          {post.tags &&
+            post.tags
+              .split(';')
+              .map((tag: string) => <div className="tagItem">{tag}</div>)}
         </div>
 
         <div className="postBottom">

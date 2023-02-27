@@ -3,6 +3,7 @@ import { AuthContext } from '../../context/AuthContext';
 import './comments.scss';
 import axios from 'axios';
 import Comment from './Comment';
+import { BASE_URL } from '../../apiCalls';
 
 const Comments = ({
   postId,
@@ -19,7 +20,9 @@ const Comments = ({
     const getComments = async () => {
       try {
         dispatch({ type: 'SET_COMMENTS', payload: [] });
-        const { data } = await axios.get(`/api/comments?postId=${postId}`);
+        const { data } = await axios.get(
+          `${BASE_URL}/api/comments?postId=${postId}`
+        );
         dispatch({ type: 'SET_COMMENTS', payload: data });
       } catch (error) {
         console.log(error);
@@ -41,7 +44,9 @@ const Comments = ({
 
     try {
       await axios.post(`/api/comments`, newComment);
-      const { data } = await axios.get(`/api/comments?postId=${postId}`);
+      const { data } = await axios.get(
+        `${BASE_URL}/api/comments?postId=${postId}`
+      );
       dispatch({ type: 'SET_COMMENTS', payload: data });
     } catch (error) {
       console.log(error);

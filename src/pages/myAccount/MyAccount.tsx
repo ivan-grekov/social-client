@@ -12,6 +12,7 @@ import { useParams } from 'react-router';
 import { type Dispatch } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { IUpdateUser } from '../../static/types';
+import { BASE_URL } from '../../apiCalls';
 
 export default function MyAccount(): JSX.Element {
   const { dispatch } = useContext(AuthContext);
@@ -61,7 +62,7 @@ export default function MyAccount(): JSX.Element {
       data.append('file', file);
       updatedUser.profilePicture = fileName;
       try {
-        await axios.post('/api/upload', data);
+        await axios.post(`${BASE_URL}/api/upload`, data);
       } catch (err) {
         console.log(err);
       }
@@ -73,7 +74,7 @@ export default function MyAccount(): JSX.Element {
       data.append('file', fileCover);
       updatedUser.coverPicture = fileName;
       try {
-        await axios.post('/api/upload', data);
+        await axios.post(`${BASE_URL}/api/upload`, data);
       } catch (err) {
         console.log(err);
       }
@@ -84,9 +85,11 @@ export default function MyAccount(): JSX.Element {
         dispatch: Dispatch<any>
       ) => {
         // Update user info
-        await axios.put(`/api/users/${user?._id}`, updatedUser);
+        await axios.put(`${BASE_URL}/api/users/${user?._id}`, updatedUser);
         const fetchUser = async () => {
-          const res = await axios.get(`/api/users?username=${username}`);
+          const res = await axios.get(
+            `${BASE_URL}/api/users?username=${username}`
+          );
           dispatch({ type: 'UPDATE_USER', payload: res.data });
         };
         fetchUser();
