@@ -68,7 +68,7 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
       setOnlineFriends(randomUsers);
     };
     getOnlineUsers();
-  }, []);
+  }, [currentUser?._id]);
 
   const handleClick = async () => {
     try {

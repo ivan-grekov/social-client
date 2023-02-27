@@ -1,5 +1,4 @@
 import './conversation.scss';
-import { IConversation } from '../../static/types';
 import { ConversationProps } from '../../static/types';
 import React from 'react';
 import axios from 'axios';
@@ -26,7 +25,7 @@ const Conversation = ({ conversation, currentUser }: ConversationProps) => {
     <div className="conversation">
       <img
         className="conversationImg"
-        alt="conversation picture"
+        alt="conversation"
         src={
           user?.profilePicture
             ? publicFolder + user.profilePicture

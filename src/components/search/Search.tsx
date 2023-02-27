@@ -1,5 +1,5 @@
 import './search.scss';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Search } from '@mui/icons-material';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -9,7 +9,7 @@ export default function SearchBar() {
 
   React.useEffect(() => {
     dispatch({ type: 'SET_QUERY', payload: queryString });
-  }, [queryString]);
+  }, [queryString, dispatch]);
 
   return (
     <div className="searchbar">

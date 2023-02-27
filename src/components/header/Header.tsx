@@ -4,8 +4,6 @@ import SearchBar from '../search/Search';
 import React, { useState } from 'react';
 import Logo from '../logo/logo';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import { UserContext } from '../../static/types';
 import MenuProfile from '../menuProfile/MenuProfile';
 import { Menu, Close } from '@mui/icons-material';
 import MobileMenu from '../menu/MobileMenu';
@@ -20,7 +18,7 @@ export default function Header(): JSX.Element {
       <div className="container">
         <div className="headerWrapper">
           <div className="headerLeft">
-            <Link to="/" className='headerLogoLink'>
+            <Link to="/" className="headerLogoLink">
               <Logo color={'white'} />
             </Link>
           </div>

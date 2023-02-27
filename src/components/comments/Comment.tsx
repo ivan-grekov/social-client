@@ -31,7 +31,7 @@ const Comment = ({
     }
   };
   return (
-    <div className="comment" key={comment._id}>
+    <div className="comment" key={commentId}>
       <img
         className="commentImg"
         src={
@@ -40,7 +40,7 @@ const Comment = ({
             : publicFolder + 'person/noAvatar.png'
         }
         alt="profile picture"
-      ></img>
+      />
       <div className="info">
         <span>{comment.username}</span>
         <p>{comment.desc}</p>

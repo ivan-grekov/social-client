@@ -24,7 +24,9 @@ function Share() {
   const [buttonDis, setButtonDis] = useState<boolean>(true);
   const [buttonTagDis, setButtonTagDis] = useState<boolean>(true);
   const [showMessage, setShowMessage] = useState<boolean>(false);
-  const [tagsInputPreview, setTagsInputPreview] = useState<string | undefined>(post?.tags!);
+  const [tagsInputPreview, setTagsInputPreview] = useState<string | undefined>(
+    post?.tags!
+  );
   // post?.tags ? tags = post?.tags!.split(';') : tags = [];
 
   useEffect(() => {
@@ -33,74 +35,74 @@ function Share() {
 
   useEffect(() => {
     setTagsInputPreview(tags?.join(''));
-  }, [tags]);
+  }, []);
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     // if (fileInput !== null && descInput !== '') {
-      setShowMessage(false);
-      const newPost = {
-        userId: user?._id,
-        desc: descInput,
-        img: post?.img,
-        tags: tags?.join(';'),
-      };
-      if (fileInput) {
-        const data = new FormData();
-        const fileName = Date.now() + fileInput.name;
-        data.append('name', fileName);
-        data.append('file', fileInput);
-        newPost.img = fileName;
-        try {
-          await axios.post('/api/upload', data);
-        } catch (err) {
-          console.log(err);
-        }
+    setShowMessage(false);
+    const newPost = {
+      userId: user?._id,
+      desc: descInput,
+      img: post?.img,
+      tags: tags?.join(';'),
+    };
+    if (fileInput) {
+      const data = new FormData();
+      const fileName = Date.now() + fileInput.name;
+      data.append('name', fileName);
+      data.append('file', fileInput);
+      newPost.img = fileName;
+      try {
+        await axios.post('/api/upload', data);
+      } catch (err) {
+        console.log(err);
       }
-      if (post) {
+    }
+    if (post) {
+      try {
+        await axios.put(`/api/posts/${post._id}`, newPost);
+        setFileInput(null);
+        setDescInput(null);
+        setTagsInput(null);
+        setTagsInputPreview(undefined);
+        setButtonTagDis(true);
+        tags = [];
+      } catch (error) {
+        console.log(error);
+      }
+      const updatePost = async (
+        updatedPost: IUpdatedPost,
+        dispatch: Dispatch<any>
+      ) => {
+        dispatch({ type: 'UPDATE_POST', payload: null });
+      };
+      await updatePost(post, dispatch);
+    } else {
+      if (fileInput !== null && descInput !== '') {
         try {
-          await axios.put(`/api/posts/${post._id}`, newPost);
+          await axios.post('/api/posts', newPost);
           setFileInput(null);
           setDescInput(null);
           setTagsInput(null);
           setTagsInputPreview(undefined);
           setButtonTagDis(true);
+          setShowMessage(false);
           tags = [];
         } catch (error) {
           console.log(error);
         }
-        const updatePost = async (
-          updatedPost: IUpdatedPost,
+        const createPost = async (
+          isCreatedPost: boolean,
           dispatch: Dispatch<any>
         ) => {
-          dispatch({ type: 'UPDATE_POST', payload: null });
+          dispatch({ type: 'CREATE_POST', payload: !isCreatedPost });
         };
-        await updatePost(post, dispatch);
+        await createPost(isCreatePost, dispatch);
       } else {
-        if (fileInput !== null && descInput !== '') {
-          try {
-            await axios.post('/api/posts', newPost);
-            setFileInput(null);
-            setDescInput(null);
-            setTagsInput(null);
-            setTagsInputPreview(undefined);
-            setButtonTagDis(true);
-            setShowMessage(false);
-            tags = [];
-          } catch (error) {
-            console.log(error);
-          }
-          const createPost = async (
-            isCreatedPost: boolean,
-            dispatch: Dispatch<any>
-          ) => {
-            dispatch({type: 'CREATE_POST', payload: !isCreatedPost});
-          };
-          await createPost(isCreatePost, dispatch);
-        } else {
-          setShowMessage(true);
-        }
+        setShowMessage(true);
       }
+    }
   };
 
   return (
@@ -114,7 +116,7 @@ function Share() {
                 ? publicFolder + user.profilePicture
                 : publicFolder + 'person/noAvatar.png'
             }
-            alt="share profile picture"
+            alt="share profile"
           />
           <input
             placeholder={`What's in your mind ${user?.username}?`}
@@ -128,8 +130,10 @@ function Share() {
           />
         </div>
         <hr className="shareHr" />
-        <div className='showMessage'
-             style={ !showMessage ? { display: 'none' } : { display: 'block' }}>
+        <div
+          className="showMessage"
+          style={!showMessage ? { display: 'none' } : { display: 'block' }}
+        >
           Fill in the description and add an image
         </div>
         {fileInput && (
@@ -137,7 +141,7 @@ function Share() {
             <img
               className="shareImg"
               src={URL.createObjectURL(fileInput)}
-              alt="share picture"
+              alt="share"
             />
             <Cancel
               className="shareCancelImg"
@@ -161,8 +165,13 @@ function Share() {
                 }}
               />
             </label>
-            <div className="shareOption" onClick={() => buttonTagDis ? setButtonTagDis(false) : setButtonTagDis(true)}>
-              <Label htmlColor="blue" className="shareIcon"/>
+            <div
+              className="shareOption"
+              onClick={() =>
+                buttonTagDis ? setButtonTagDis(false) : setButtonTagDis(true)
+              }
+            >
+              <Label htmlColor="blue" className="shareIcon" />
               <span className="shareOptionText">Tag</span>
             </div>
             <div className="shareOption">
@@ -178,26 +187,27 @@ function Share() {
             </button>
           </div>
 
-          <div className='tagPreviewBlock'>
-            {tagsInputPreview && tags?.map((tag: string, index: number) => (
-              <div className="shareTagContainer">
-                {tag}
-                <Cancel
-                  className="shareCancelTag"
-                  onClick={() => {
-                    if (tagsInput !== '') {
-                      tags?.splice( index,1);
-                      setTagsInputPreview(tags?.join(''));
-                    }
-                  }}
-                />
-              </div>
-             ))}
+          <div className="tagPreviewBlock">
+            {tagsInputPreview &&
+              tags?.map((tag: string, index: number) => (
+                <div className="shareTagContainer">
+                  {tag}
+                  <Cancel
+                    className="shareCancelTag"
+                    onClick={() => {
+                      if (tagsInput !== '') {
+                        tags?.splice(index, 1);
+                        setTagsInputPreview(tags?.join(''));
+                      }
+                    }}
+                  />
+                </div>
+              ))}
           </div>
 
-          <div className='tagsInputBlock'>
+          <div className="tagsInputBlock">
             <input
-              style={ buttonTagDis ? { display: 'none' } : { display: 'block' }}
+              style={buttonTagDis ? { display: 'none' } : { display: 'block' }}
               placeholder={'Enter tags'}
               className="tagInput"
               value={
@@ -210,17 +220,19 @@ function Share() {
                 setTagsInput(event.target.value);
               }}
             />
-            <button className="shareTagButton"
-                    type="button"
-                    style={ buttonDis ? { display: 'none' } : { display: 'block' }}
-                    onClick={() => {
-                      if (tagsInput !== '') {
-                        tags?.push('#' + tagsInput);
-                        setTagsInputPreview(tags?.join(''));
-                        setTagsInput(null);
-                        setButtonDis(true);
-                      }
-                    }}>
+            <button
+              className="shareTagButton"
+              type="button"
+              style={buttonDis ? { display: 'none' } : { display: 'block' }}
+              onClick={() => {
+                if (tagsInput !== '') {
+                  tags?.push('#' + tagsInput);
+                  setTagsInputPreview(tags?.join(''));
+                  setTagsInput(null);
+                  setButtonDis(true);
+                }
+              }}
+            >
               Add tag
             </button>
           </div>

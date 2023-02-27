@@ -13,7 +13,6 @@ const Comments = ({
   commentOpen: boolean;
 }) => {
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
-  const [timeAgo, setTimeago] = React.useState(false);
   const { user, comments, dispatch } = React.useContext(AuthContext);
   const [descInputComment, setDescInputComment] = React.useState('');
 
@@ -28,7 +27,7 @@ const Comments = ({
       }
     };
     getComments();
-  }, [postId, user, commentOpen]);
+  }, [postId, user, commentOpen, dispatch]);
 
   const onClickSendComment = async (e: React.MouseEvent) => {
     setDescInputComment('');
@@ -50,17 +49,6 @@ const Comments = ({
     }
   };
 
-  const checkData = () => {
-    setTimeout(() => {
-      setTimeago(true);
-    }, 3000);
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </div>
-    );
-  };
-
   return (
     <div className="comments">
       <div className="write">
@@ -71,7 +59,7 @@ const Comments = ({
               ? publicFolder + user.profilePicture
               : publicFolder + 'person/noAvatar.png'
           }
-          alt="user profile picture"
+          alt="user profile"
         />
         <input
           type="text"

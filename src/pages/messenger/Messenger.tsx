@@ -5,11 +5,11 @@ import './messenger.scss';
 import Message from '../../components/message/Message';
 import ChatOnline from '../../components/chatOnline';
 import { AuthContext } from '../../context/AuthContext';
-import { IUser, UserContext } from '../../static/types';
+import { UserContext } from '../../static/types';
 import axios from 'axios';
 import { IConversation } from '../../static/types';
 import { IMessage } from '../../static/types';
-import { io, Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 import { IArrivalMessage } from '../../static/types';
 
 const Messenger = () => {
@@ -19,41 +19,8 @@ const Messenger = () => {
   );
   const [messages, setMessages] = React.useState<IMessage[]>([]);
   const [newMessage, setNewMessage] = React.useState('');
-  const [arrivalMessage, setArrivalMessage] =
-    React.useState<IArrivalMessage | null>(null);
-  const [onlineUsers, setOnlineUsers] = React.useState<string[]>([]);
   const { user } = React.useContext(AuthContext) as UserContext;
   const scrollRef = React.useRef<HTMLDivElement>(null);
-  const socket = useRef<Socket>();
-
-  // useEffect(() => {
-  //   socket.current = io('ws://localhost:8900');
-  //   socket.current.on('getMessage', (data) => {
-  //     setArrivalMessage({
-  //       sender: data.senderId,
-  //       text: data.text,
-  //       createdAt: String(Date.now()),
-  //     });
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   arrivalMessage &&
-  //     currentChat?.members.includes(arrivalMessage.sender) &&
-  //     setMessages((prev) => [...prev, arrivalMessage]);
-  // }, [arrivalMessage, currentChat]);
-
-  // useEffect(() => {
-  //   socket.current?.emit('addUser', user?._id);
-  //   socket.current?.on('getUsers', (users) => {
-  //     if (!user) return;
-  //     setOnlineUsers(
-  //       user.followings.filter((f) =>
-  //         users.some((u: { userId: string }) => u.userId === f)
-  //       )
-  //     );
-  //   });
-  // }, [user]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -90,15 +57,6 @@ const Messenger = () => {
       text: newMessage,
       conversationId: currentChat?._id,
     };
-    // const receiverId = currentChat?.members.find(
-    //   (member) => member !== user?._id
-    // );
-
-    // socket.current?.emit('sendMessage', {
-    //   senderId: user?._id,
-    //   receiverId,
-    //   text: newMessage,
-    // });
 
     try {
       const res = await axios.post('/api/messages', message);
