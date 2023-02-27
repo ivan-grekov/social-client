@@ -43,6 +43,7 @@ function App(): JSX.Element {
         path="/courses"
         element={!user ? <Navigate to="/" replace /> : <CoursesPage />}
       />
+      <Route path="*" element={user ? <Home /> : <Register />} />
     </Routes>
   );
 }
