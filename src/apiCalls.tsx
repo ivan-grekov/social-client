@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { type Dispatch } from 'react';
-const BASE_URL = 'https://social-api-production-9453.up.railway.app';
+const BASE_URL = 'http://social-api-production-9453.up.railway.app';
 
 export const loginCall = async (
   userCredential: {
