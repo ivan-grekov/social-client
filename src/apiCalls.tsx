@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { type Dispatch } from 'react';
+const BASE_URL = 'https://social-api-production-9453.up.railway.app';
 
 export const loginCall = async (
   userCredential: {
@@ -10,7 +11,7 @@ export const loginCall = async (
 ) => {
   dispatch({ type: 'LOGIN_START' });
   try {
-    const res = await axios.post('/api/auth/login', userCredential);
+    const res = await axios.post(`${BASE_URL}/api/auth/login`, userCredential);
     dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
   } catch (err) {
     dispatch({ type: 'LOGIN_FAILURE', payload: err });
