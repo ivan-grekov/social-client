@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import Conversation from '../../components/conversation/Conversation';
 import Header from '../../components/header/Header';
 import './messenger.scss';
@@ -9,8 +9,6 @@ import { UserContext } from '../../static/types';
 import axios from 'axios';
 import { IConversation } from '../../static/types';
 import { IMessage } from '../../static/types';
-import { Socket } from 'socket.io-client';
-import { IArrivalMessage } from '../../static/types';
 
 const Messenger = () => {
   const [conversations, setConversations] = React.useState([]);

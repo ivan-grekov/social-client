@@ -2,7 +2,6 @@ import React from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import './comments.scss';
 import axios from 'axios';
-import { CircularProgress } from '@mui/material';
 import Comment from './Comment';
 
 const Comments = ({

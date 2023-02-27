@@ -39,7 +39,7 @@ const Comment = ({
             ? publicFolder + comment.userImg
             : publicFolder + 'person/noAvatar.png'
         }
-        alt="profile picture"
+        alt="profile"
       />
       <div className="info">
         <span>{comment.username}</span>

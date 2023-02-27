@@ -17,11 +17,13 @@ export default function MyAccount(): JSX.Element {
   const { dispatch } = useContext(AuthContext);
   const { username } = useParams();
 
-  const {user} = React.useContext(AuthContext) as UserContext;
-  const [userName, setUserName] = React.useState<string | null>(user?.username!);
-  const [emailAddress, setEmailAddress] = React.useState<string | null>(
-    user?.email!
-  );
+  const { user } = React.useContext(AuthContext) as UserContext;
+  // const [userName, setUserName] = React.useState<string | null>(user?.username!);
+  const userName = user?.username!;
+  const emailAddress = user?.email!;
+  // const [emailAddress, setEmailAddress] = React.useState<string | null>(
+  //   user?.email!
+  // );
   const [password, setPassword] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<string | null>(user?.city!);
   const [from, setFrom] = React.useState<string | null>(user?.from!);
@@ -152,7 +154,7 @@ export default function MyAccount(): JSX.Element {
               className="textField"
               fullWidth
               required
-              value={ password === null ? '' : password }
+              value={password === null ? '' : password}
               placeholder="Enter your password"
               label="Password"
               variant="outlined"
