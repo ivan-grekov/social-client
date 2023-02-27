@@ -246,7 +246,7 @@ export default function MyAccount(): JSX.Element {
                 <img
                   className="fileImg"
                   src={URL.createObjectURL(file)}
-                  alt="profile picture"
+                  alt="profile"
                 />
                 <Cancel className="cancelImg" onClick={() => setFile(null)} />
               </div>
@@ -274,7 +274,7 @@ export default function MyAccount(): JSX.Element {
                 <img
                   className="fileImg"
                   src={URL.createObjectURL(fileCover)}
-                  alt="cover picture"
+                  alt="cover"
                 />
                 <Cancel
                   className="cancelImg"
