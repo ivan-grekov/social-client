@@ -82,7 +82,7 @@ function Share() {
     } else {
       if (fileInput !== null && descInput !== '') {
         try {
-          await axios.post('${BASE_URL}/api/posts', newPost);
+          await axios.post(`${BASE_URL}/api/posts`, newPost);
           setFileInput(null);
           setDescInput(null);
           setTagsInput(null);
