@@ -28,7 +28,7 @@ export default function Profile(): JSX.Element {
       setUser(res.data);
     };
     fetchUser();
-  }, [username]);
+  }, [username, currentUser]);
 
   useEffect(() => {
     setFollowed(currentUser?.followings.includes(user?._id!));
