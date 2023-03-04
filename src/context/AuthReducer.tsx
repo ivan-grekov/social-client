@@ -85,15 +85,23 @@ export const AuthReducer = (
           ),
         },
       };
+    case 'START_UPDATE_POST':
+      return {
+        ...state,
+        post: null,
+        isFetching: true,
+      };
     case 'UPDATE_POST':
       return {
         ...state,
+        isFetching: false,
         post: action.payload,
       };
     case 'CREATE_POST':
       return {
         ...state,
         isCreatePost: action.payload,
+        isFetching: false,
       };
     case 'SET_COMMENTS':
       return {

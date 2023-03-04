@@ -120,6 +120,7 @@
 .shareButton {
   @include font-shareBotton;
   border: none;
+  width: 60px;
   border-radius: 5px;
   padding: 7px;
   background-color: $color-green;
