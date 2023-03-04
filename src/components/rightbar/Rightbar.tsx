@@ -69,7 +69,6 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
     };
     getOnlineUsers();
   }, [currentUser?._id]);
-  console.log('onlineFriends', onlineFriends);
 
   const HomeRightbar = () => {
     return (
