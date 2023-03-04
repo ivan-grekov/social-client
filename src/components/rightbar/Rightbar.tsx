@@ -61,7 +61,7 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
       const { data } = await axios.get(`${BASE_URL}/api/users/all`);
       const randomUsers = data
         .filter(
-          (user: IUser) => !user.profilePicture && user._id !== currentUser?._id
+          (user: IUser) => user._id !== currentUser?._id
         )
         .sort(() => 0.5 - Math.random())
         .slice(0, 5);
@@ -69,6 +69,7 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
     };
     getOnlineUsers();
   }, [currentUser?._id]);
+  console.log('onlineFriends', onlineFriends);
 
   const HomeRightbar = () => {
     return (
