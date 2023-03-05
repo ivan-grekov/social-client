@@ -60,7 +60,7 @@ function Share() {
       }
     }
     if (post) {
-      dispatch({ type: 'START_UPDATE_POST'});
+      dispatch({ type: 'START_UPDATE_POST' });
       try {
         await axios.put(`${BASE_URL}/api/posts/${post._id}`, newPost);
         setFileInput(null);
@@ -81,7 +81,7 @@ function Share() {
       await updatePost(post, dispatch);
     } else {
       if (fileInput !== null && descInput !== '') {
-        dispatch({ type: 'START_UPDATE_POST'});
+        dispatch({ type: 'START_UPDATE_POST' });
         try {
           await axios.post(`${BASE_URL}/api/posts`, newPost);
           setFileInput(null);
@@ -185,14 +185,18 @@ function Share() {
               <span className="shareOptionText">Feelings</span>
             </div>
             <button className="shareButton" type="submit">
-              {isFetching ? <CircularProgress color="warning" size="11px" /> : 'Share'}
+              {isFetching ? (
+                <CircularProgress color="warning" size="11px" />
+              ) : (
+                'Share'
+              )}
             </button>
           </div>
 
           <div className="tagPreviewBlock">
             {tagsInputPreview &&
               tags?.map((tag: string, index: number) => (
-                <div className="shareTagContainer">
+                <div className="shareTagContainer" key={index}>
                   {tag}
                   <Cancel
                     className="shareCancelTag"
