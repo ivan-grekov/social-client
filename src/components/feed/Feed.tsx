@@ -5,8 +5,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IPost, FeedProps, UserContext } from '../../static/types';
 import { AuthContext } from '../../context/AuthContext';
-import Skeleton from '../skeleton/Skeleton';
+// import Skeleton from '../skeleton/Skeleton';
 import { BASE_URL } from '../../apiCalls';
+import { Instagram } from 'react-content-loader';
 
 const Feed: React.FC<FeedProps> = ({ username }) => {
   const [timeAgo, setTimeago] = React.useState(false);
@@ -53,7 +54,8 @@ const Feed: React.FC<FeedProps> = ({ username }) => {
             posts.map((p: IPost) => <Post key={p._id} post={p} />)
           ) : !timeAgo ? (
             <div className="skeleton">
-              <Skeleton />
+              <Instagram />
+              {/*<Skeleton />*/}
             </div>
           ) : (
             'No posts yet.'

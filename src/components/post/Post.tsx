@@ -81,9 +81,11 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
         <div className="tagBlock">
           {post.tags &&
-            post.tags
-              .split(';')
-              .map((tag: string) => <div className="tagItem">{tag}</div>)}
+            post.tags.split(';').map((tag: string, i) => (
+              <div className="tagItem" key={i}>
+                {tag}
+              </div>
+            ))}
         </div>
 
         <div className="postBottom">

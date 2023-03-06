@@ -5,21 +5,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import { Add, Remove } from '@mui/icons-material';
 import { useParams } from 'react-router';
 import { BASE_URL } from '../../apiCalls';
 
 export default function Rightbar({ user }: RightbarProps): JSX.Element {
-  const { user: currentUser, dispatch } = React.useContext(
+  const { user: currentUser } = React.useContext(
     AuthContext
   ) as UserContext;
   const { username } = useParams();
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
   const [onlineFriends, setOnlineFriends] = useState<IUser[]>([]);
   const [friends, setFriends] = useState([]);
-  const [followed, setFollowed] = useState(
-    currentUser?.followings.includes(user?._id!)
-  );
+  // const [followed, setFollowed] = useState(
+  //   currentUser?.followings.includes(user?._id!)
+  // );
   let today = new Date();
   const dd = String(today.getDate()).padStart(2, '0');
   const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -53,16 +52,16 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
     });
   }
 
-  useEffect(() => {
-    setFollowed(currentUser?.followings.includes(user?._id!));
-  }, [currentUser, user?._id]);
+  // useEffect(() => {
+  //   setFollowed(currentUser?.followings.includes(user?._id!));
+  // }, [currentUser, user?._id]);
 
   useEffect(() => {
     const getOnlineUsers = async () => {
       const { data } = await axios.get(`${BASE_URL}/api/users/all`);
       const randomUsers = data
         .filter(
-          (user: IUser) => !user.profilePicture && user._id !== currentUser?._id
+          (user: IUser) => user._id !== currentUser?._id
         )
         .sort(() => 0.5 - Math.random())
         .slice(0, 5);
@@ -70,25 +69,6 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
     };
     getOnlineUsers();
   }, [currentUser?._id]);
-
-  const handleClick = async () => {
-    try {
-      if (followed) {
-        await axios.put(`${BASE_URL}/api/users/${user?._id}/unfollow`, {
-          userId: currentUser?._id,
-        });
-        dispatch({ type: 'UNFOLLOW', payload: user?._id });
-      } else {
-        await axios.put(`${BASE_URL}/api/users/${user?._id}/follow`, {
-          userId: currentUser?._id,
-        });
-        dispatch({ type: 'FOLLOW', payload: user?._id });
-      }
-      setFollowed(!followed);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const HomeRightbar = () => {
     return (
@@ -130,7 +110,7 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
           </div>
         )}
         <img className="rightbarAd" src="./assets/images/js.jpg" alt="view" />
-        <h4 className="rightbarTitle">Online Friends</h4>
+        <h4 className="rightbarTitle">Online users</h4>
         <ul className="rightbarFriendList">
           {onlineFriends.map((u) => (
             <Link
@@ -156,12 +136,12 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
     return (
       <>
         <div className="profileRightBlock">
-          {user?.username !== currentUser?.username && (
+          {/* {user?.username !== currentUser?.username && (
             <button className="button addFollow" onClick={handleClick}>
               {followed ? 'Unfollow' : 'Follow'}
               {followed ? <Remove /> : <Add />}
             </button>
-          )}
+          )} */}
           <div className="profileDescriptions">
             <h4 className="rightbarTitle">User information</h4>
             <div className="rightbarInfo">

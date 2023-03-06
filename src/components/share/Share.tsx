@@ -11,12 +11,13 @@ import { AuthContext } from '../../context/AuthContext';
 import { IUpdatedPost, UserContext } from '../../static/types';
 import axios from 'axios';
 import { BASE_URL } from '../../apiCalls';
+import { CircularProgress } from '@mui/material';
 
 let tags: string[] | undefined = [];
 
 function Share() {
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
-  const { user, post, isCreatePost, dispatch } = React.useContext(
+  const { user, post, isCreatePost, isFetching, dispatch } = React.useContext(
     AuthContext
   ) as UserContext;
   const [descInput, setDescInput] = React.useState<string | null>(post?.desc!);
@@ -28,7 +29,6 @@ function Share() {
   const [tagsInputPreview, setTagsInputPreview] = useState<string | undefined>(
     post?.tags!
   );
-  // post?.tags ? tags = post?.tags!.split(';') : tags = [];
 
   useEffect(() => {
     setDescInput(post?.desc!);
@@ -40,7 +40,6 @@ function Share() {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    // if (fileInput !== null && descInput !== '') {
     setShowMessage(false);
     const newPost = {
       userId: user?._id,
@@ -81,6 +80,7 @@ function Share() {
       await updatePost(post, dispatch);
     } else {
       if (fileInput !== null && descInput !== '') {
+        // dispatch({ type: 'START_UPDATE_POST' });
         try {
           await axios.post(`${BASE_URL}/api/posts`, newPost);
           setFileInput(null);
@@ -184,14 +184,18 @@ function Share() {
               <span className="shareOptionText">Feelings</span>
             </div>
             <button className="shareButton" type="submit">
-              Share
+              {isFetching ? (
+                <CircularProgress color="warning" size="11px" />
+              ) : (
+                'Share'
+              )}
             </button>
           </div>
 
           <div className="tagPreviewBlock">
             {tagsInputPreview &&
               tags?.map((tag: string, index: number) => (
-                <div className="shareTagContainer">
+                <div className="shareTagContainer" key={index}>
                   {tag}
                   <Cancel
                     className="shareCancelTag"
