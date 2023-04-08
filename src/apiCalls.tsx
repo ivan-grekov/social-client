@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { type Dispatch } from 'react';
-export const BASE_URL = 'https://social-api-production-9453.up.railway.app';
+export const BASE_URL = 'https://social-api-beta.vercel.app/';
 
 export const loginCall = async (
   userCredential: {

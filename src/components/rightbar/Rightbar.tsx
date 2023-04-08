@@ -9,9 +9,7 @@ import { useParams } from 'react-router';
 import { BASE_URL } from '../../apiCalls';
 
 export default function Rightbar({ user }: RightbarProps): JSX.Element {
-  const { user: currentUser } = React.useContext(
-    AuthContext
-  ) as UserContext;
+  const { user: currentUser } = React.useContext(AuthContext) as UserContext;
   const { username } = useParams();
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
   const [onlineFriends, setOnlineFriends] = useState<IUser[]>([]);
@@ -60,9 +58,7 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
     const getOnlineUsers = async () => {
       const { data } = await axios.get(`${BASE_URL}/api/users/all`);
       const randomUsers = data
-        .filter(
-          (user: IUser) => user._id !== currentUser?._id
-        )
+        .filter((user: IUser) => user._id !== currentUser?._id)
         .sort(() => 0.5 - Math.random())
         .slice(0, 5);
       setOnlineFriends(randomUsers);
@@ -84,11 +80,11 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
               <span className="birthdayText">Have a birthday today:</span>
             </div>
             <div className="rightbarBDBlock">
-              {friendsBirthday.map((friend: IFriend) => (
+              {friendsBirthday.map((friend: IFriend, i) => (
                 <Link
                   to={`/profile/${friend.username}`}
                   style={{ textDecoration: 'none', color: 'inherit' }}
-                  key={friend._id}
+                  key={i}
                 >
                   <div className="friendBlock">
                     <img
@@ -167,11 +163,11 @@ export default function Rightbar({ user }: RightbarProps): JSX.Element {
             <h4 className="rightbarTitle">User friends</h4>
             <div className="rightbarFollowings">
               {friends.length > 0 &&
-                friends.map((friend: IFriend) => (
+                friends.map((friend: IFriend, i) => (
                   <Link
                     to={`/profile/${friend.username}`}
                     style={{ textDecoration: 'none', color: 'inherit' }}
-                    key={friend._id}
+                    key={i}
                   >
                     <div className="rightbarFollowing">
                       <img
